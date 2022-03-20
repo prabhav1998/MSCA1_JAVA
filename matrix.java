@@ -3,19 +3,7 @@
 import java.io.*;
 
 class matrix {
-    int a[][] = new int[3][3];
-    int b[][] = new int[3][3];
-    // int c[][]=new int [3][3];
-    int rows, colm;
-
-    matrix() {
-    }// default constractor
-
-    matrix(int x[][],int y[][]) {
-        this.a = x;
-        this.b = y;
-    }// parameterized constractor
-
+    
     // Function to print Matrix
     static int[][] printMatrix(int M[][],
             int size) {
@@ -48,7 +36,6 @@ class matrix {
         int A[][] = new int[3][3];
         int B[][] = new int[3][3];
         int size = 3;
-        matrix x ;
         System.out.println("enter Matrix A:");
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -62,7 +49,7 @@ class matrix {
         System.out.println("enter Matrix B:");
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                System.out.println("Enter Matrix element"+"["+i+"]"+"["+j+"]:");
+                System.out.printf("Enter Matrix element"+"["+i+"]"+"["+j+"]:");
                 B[i][j] = Integer.parseInt(reader.readLine());
             }
         }
