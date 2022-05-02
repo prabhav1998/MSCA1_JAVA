@@ -1,0 +1,436 @@
+import java.io.*;
+
+class Program1
+{
+	public static void main(String args[]) throws IOException
+	{
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		int ch;
+		do
+		{
+			System.out.println("\nMenu\n1.Silver Card Customer\n2.Gold Card Customer\n3.Exit");
+			System.out.print("Enter your choice : ");
+			ch = Integer.parseInt(br.readLine());
+			switch(ch)
+			{
+				case 1: int ch1;
+					SilverCardCustomer scc=new SilverCardCustomer();
+					scc.input();
+					do
+					{
+						System.out.println("\nSubmenu for Silver Card\n1.View Credit Amount\n2.Use Credit Card\n3.Pay Credit\n4.Exit");
+						System.out.print("Enter your choice : ");
+						ch1 = Integer.parseInt(br.readLine());
+						switch(ch1)
+						{
+							case 1: scc.viewCreditAmount();
+								break;
+							case 2: scc.useCard();
+								break;
+							case 3: scc.payCredit();
+								break;
+							case 4: break;
+							default:System.out.println("Invalid Choice");
+						}
+					}while(ch1!=4);
+					break;
+				case 2: int ch2;
+					GoldCardCustomer gcc=new GoldCardCustomer();
+					gcc.input();
+					do
+					{
+						System.out.println("\nSubmenu for Gold Card\n1.View Credit Amount\n2.Use Credit Card\n3.Pay Credit\n4.Increase Limit of card\n5.Exit");
+						System.out.print("Enter your choice : ");
+						ch2 = Integer.parseInt(br.readLine());
+						switch(ch2)
+						{
+							case 1: gcc.viewCreditAmount();
+								break;
+							case 2: gcc.useCard();
+								break;
+							case 3: gcc.payCredit();
+								break;
+							case 4: gcc.increaseLimit();
+								break;
+							case 5: break;
+							default:System.out.println("Invalid Choice");
+						}
+					}while(ch2!=5);
+					break;
+				case 3: break;
+				default:System.out.println("Invalid Choice");
+			}
+		}while(ch!=3);
+	}
+}
+				
+	
+
+
+
+
+______________________
+
+
+
+
+import java.io.*;
+
+class SilverCardCustomer implements CreditCardInterface
+{
+	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	double creditAmount,creditLimit;
+	String name,cardnumber;
+	SilverCardCustomer()
+	{
+		creditAmount=0;
+		creditLimit=50000;
+	}
+	public void input() throws IOException
+	{
+		System.out.print("\nEnter card holder name : ");
+		name = br.readLine();
+		System.out.print("Enter Card Number : ");
+		while(true)
+		{
+			cardnumber = br.readLine();
+			if(cardnumber.matches("[0-9]+") && cardnumber.length()==16)
+				break;
+			else
+				System.out.print("Invalid card number, please re-enter card number : ");
+		} 
+	}
+	public void viewCreditAmount()
+	{
+		System.out.println("Your credit amount is "+creditAmount);
+	}
+	
+	public void useCard() throws IOException
+	{
+		System.out.println("You can use card upto "+(creditLimit-creditAmount));
+		double amount;
+		System.out.print("Enter amount to use : ");
+		while(true)
+		{
+			amount = Double.parseDouble(br.readLine());
+			if(amount>0)
+				break;
+			else
+				System.out.print("Invalid amount, re-enter amount : ");
+		}
+		if((amount+creditAmount)<=creditLimit)
+		{
+			creditAmount = creditAmount+amount;
+			System.out.println("Transaction is sucessful");
+		}
+		else
+			System.out.println("Transaction is failed");		 
+	}
+
+	public void payCredit() throws IOException
+	{
+		double pay;
+		viewCreditAmount();
+		System.out.print("Enter amount to pay : ");
+		while(true)
+		{
+			pay = Double.parseDouble(br.readLine());
+			if(pay>0)
+				break;
+			else
+				System.out.print("Invalid pay amount, re-enter amount : ");
+		}
+		if(pay<=creditAmount)
+		{
+			creditAmount = creditAmount-pay;
+			System.out.println("Transaction is successful\nYour remaining credit amount is "+creditAmount);
+		}
+		else
+			System.out.println("Transaction is failed");
+	}
+			
+	
+	public void increaseLimit()
+	{
+	}
+}
+
+
+class GoldCardCustomer extends SilverCardCustomer
+{
+	int count=0;
+	//double creditLimit;
+	GoldCardCustomer() 
+	{
+		super.creditLimit = 100000;
+	}
+	public void increaseLimit()
+	{
+		
+		
+		if(count<3)
+		{
+			
+			creditLimit = creditLimit+5000;
+			System.out.println("Your credit limit is increased to "+creditLimit);
+			count++;
+		}
+		else
+			System.out.println("Card increase limit is reached");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++
+
+import java.io.*; 
+
+class Vehicle
+{
+	String company;
+	double price;
+	Vehicle(String company, double price)
+	{
+		this.company = company;
+		this.price = price;
+	}
+	
+	void display()
+	{
+		System.out.println("\nCompany : "+company);
+		System.out.println("Price : "+price);
+	}
+}
+
+class LightMotorVehicle extends Vehicle
+{
+	double mileage;
+	LightMotorVehicle(double mileage,String company,double price)
+	{
+		super(company,price);
+		this.mileage=mileage;
+	}
+	
+	void display()
+	{
+		super.display();
+		System.out.println("Mileage : "+mileage);
+	}
+}
+
+
+
+class HeavyMotorVehicle extends Vehicle
+{
+	double capacity;
+	
+	HeavyMotorVehicle(double capacity,String company,double price)	
+	{
+		super(company,price);
+		this.capacity=capacity;
+	}
+	
+	void display()
+	{
+		super.display();
+		System.out.println("Capacity : "+capacity);
+	}
+}
+
+
+class Program2
+{
+	public static void main(String args[]) throws IOException
+	{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String company;
+		double price;
+		int ch;
+		
+		do
+		{
+			System.out.println("\nMenu\n1.Light Motor vehicle\n2.Heavy Motor vehicle\n3.Exit");
+			System.out.print("Enter your choice : ");
+			ch = Integer.parseInt(br.readLine());
+		
+			switch(ch)
+			{
+				case 1: double mileage;
+					System.out.print("Enter number of light motor vehicle : ");
+					int n = Integer.parseInt(br.readLine());
+					LightMotorVehicle lmv[] = new LightMotorVehicle[n];
+					
+					for(int i=0;i<n;i++)
+					{
+						System.out.print("Enter company name : ");
+						company =br.readLine();
+						System.out.print("Enter price : ");
+						while(true)
+						{
+							price = Integer.parseInt(br.readLine());
+							if(price<=0)
+								System.out.print("Invalid price please re-enter price : ");
+							else
+								break;							
+							
+						}
+						System.out.print("Enter mileage : ");
+						while(true)
+						{
+							mileage = Double.parseDouble(br.readLine());
+							if(mileage<=0)
+								System.out.print("Invalid mileage please re-enter mileage : ");
+							else
+								break;							
+							
+						}
+					
+						lmv[i] = new LightMotorVehicle(mileage, company, price);
+					}	
+					System.out.println("\nLight Motor vehicle details : ");
+					for(int i=0;i<n;i++)
+					{
+						lmv[i].display();
+					}
+					break;
+		
+				case 2: double capacity;
+					System.out.print("Enter number of heavy motor vehicle : ");
+					int n1= Integer.parseInt(br.readLine());
+					HeavyMotorVehicle hmv[] = new HeavyMotorVehicle[n1];
+					
+					for(int i=0;i<n1;i++)
+					{
+						System.out.print("Enter company name : ");
+						company =br.readLine();
+						System.out.print("Enter price : ");
+						while(true)
+						{
+							price = Integer.parseInt(br.readLine());
+							if(price<=0)
+								System.out.print("Invalid price please re-enter price : ");
+							else
+								break;							
+							
+						}
+					
+						System.out.print("Enter capacity in tons : ");
+						while(true)
+						{
+							capacity =Double.parseDouble(br.readLine());
+							if(capacity<=0)
+								System.out.print("Invalid capacity please re-enter capacity : ");
+							else
+								break;							
+		
+						}					
+						hmv[i] = new HeavyMotorVehicle(capacity, company, price);
+					}	
+					System.out.println("\nHeavy Motor vehicle details : ");
+					for(int i=0;i<n1;i++)
+					{
+						hmv[i].display();
+					}	
+					break;
+
+			
+				case 3: break;
+			
+				default: System.out.println("Invalid choice ");
+			}
+	
+		}while(ch!=3);
+		
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
