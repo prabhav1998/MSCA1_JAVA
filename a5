@@ -1,0 +1,173 @@
+import java.io.*;
+
+class Program1
+{
+	public static void main(String args[])
+	{
+		String name = args[0];
+		File f1=new File(name);
+		
+		if(f1.isDirectory())
+		{
+			String contentOfDir[];
+			int countFile=0, countDir=0;
+			System.out.println("Directory");
+			contentOfDir = f1.list();
+			System.out.println("\nContents of directory");
+			for(String content : contentOfDir)
+			{
+				File f2=new File(name,content);
+				if(f2.isFile())
+				{
+					System.out.println(content);
+					countFile++;
+				}
+				else if(f2.isDirectory())
+				{
+					System.out.println(content);
+					countDir++;
+				}
+			}
+			System.out.println("\nThere are total "+countFile+" files in directory "+name);
+			System.out.println("\nThere are total "+countDir+" subdirectory in directory "+name);
+			System.out.println("\nFiles with .txt extension in directory "+name);
+			for(int i=0; i<contentOfDir.length; i++)
+			{
+				if(contentOfDir[i].endsWith(".txt"))
+					System.out.println(contentOfDir[i]);
+			}
+		}
+		else if(f1.isFile())
+		{
+			System.out.println("File");
+			
+			System.out.println("Path : "+f1.getPath());
+			System.out.println("Size : "+f1.length());
+			System.out.println("is readable :"+f1.canRead());
+			System.out.println("is writable :"+f1.canWrite());
+			System.out.println("parent  :"+f1.getParent());
+			System.out.println("absolute path  :"+f1.getAbsolutePath());
+			
+		}
+		else
+
+			System.out.println(name+" name file/Directory is not present");
+	}
+}
+_________________
+import java.io.*;
+
+class Prog2
+{
+	public static void main(String args[])throws IOException
+	{
+		String line;
+		int countchar=0, countword=0, countline=0;
+		try
+		{
+			BufferedReader br = new BufferedReader(new InputStreamReader (new FileInputStream(args[0])));
+
+			while((line = br.readLine()) != null)
+			{
+				String words[] = line.split("\\s+");
+				for(String s : words)
+				{
+					if(s.matches("\\w+"))
+					{
+						countword++;
+
+					}
+				}
+
+				countline++;
+				countchar += line.length();
+			}
+
+		System.out.println("characters are : "+(countchar+countline));
+		System.out.println("words are : "+countword);
+		System.out.println("lines are : "+countline);
+		}
+
+		catch(FileNotFoundException ab)
+		{
+			System.out.println("something went wrong");
+		}
+	}
+}
+-_______________________
+
+
+import java.io.*;
+
+public class Program3
+{
+	public static void main(String[] args) throws IOException
+	{
+
+	//InputStream f = new FileInputStream(args[0]);
+
+	FileOutputStream even = new FileOutputStream("./even.txt");
+	FileOutputStream odd = new FileOutputStream("./odd.txt");
+	BufferedReader br = new BufferedReader(new InputStreamReader (new FileInputStream (args[0]))); 
+	
+	///int line=1;
+	char linearr[];
+	int linecount=0;
+	//int size = f.available();
+	String line;
+		try 
+		{
+
+			while((line = br.readLine()) != null)
+			{
+				linecount++;
+				linearr = line.toCharArray();
+				
+				if(linecount%2==0)
+				{
+					for(char ch : linearr)
+					
+						even.write(ch);
+					even.write('\n');
+					
+					
+				}
+				
+				else
+				{
+					for(char ch : linearr)
+					
+						odd.write(ch);
+					odd.write('\n');
+					
+				}
+			}
+			
+			 System.out.println("Operation successful");
+		}
+
+
+
+		catch(IOException ioe)
+		{
+			System.out.println(ioe);
+		}
+
+		finally
+		{
+			try
+			{
+			
+				odd.close();
+				even.close();
+			}
+
+
+		catch(IOException ioe)
+		{
+			System.out.println(ioe);
+		}
+		}
+		
+	}
+}
