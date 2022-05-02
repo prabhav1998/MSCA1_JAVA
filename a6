@@ -1,0 +1,109 @@
+import java.awt.*;
+import java.applet.*;
+
+/*		
+<applet code = "Program1" width = 500 height = 600>
+</applet>
+*/	
+
+public class Program1 extends Applet
+{
+	String msg,msg1;
+
+	public void init()
+	{
+		msg = "Init Method";
+	}
+	public void start()
+	{
+		msg1 = "Start Method";
+	}
+	public void paint(Graphics g)
+	{
+		setBackground(Color.blue); // background color
+		
+		g.setColor(Color.yellow); //foreground color
+		g.drawString(msg,40,40);
+		g.drawString(msg1,40,60);
+		g.drawString("Paint Method",40,80);
+	}
+	
+}
+------------
+
+
+import java.util.*;
+import java.awt.*;
+import java.applet.*;
+import java.text.*;
+
+/*
+<applet code = "Program2" width = 400 height = 400>
+</applet>
+*/
+
+public class Program2 extends Applet
+{
+	int ampm;
+
+	public void paint(Graphics g)
+	{
+		Calendar cal = Calendar.getInstance();
+	
+		Date d = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String date = formatter.format(d);
+		g.drawString(date,20,20);
+		
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		int second = cal.get(Calendar.SECOND);
+		
+		
+		String time = hour+":"+minute+":"+second;
+		g.drawString(time,20,40);
+		
+		if(hour>=0 && hour<12)
+			showStatus("Good Morning");
+		else if(hour>=12 && hour<17)
+			showStatus("Good Afternoon");
+		else if(hour>=17 && hour<20)
+			showStatus("Good Evening");
+		else if(hour>=20 && hour<0)
+			showStatus("Good Night");
+	}
+}
+_______
+
+
+
+
+import java.util.*;
+import java.awt.*;
+import java.applet.*;
+
+/*
+<applet code="Program3" width=300 height=200>
+<param name = str value = namasteindia>
+</applet>
+*/
+
+public class Program3 extends Applet
+{
+	String Str,vowel="";
+	public void paint(Graphics g)
+	{
+		Str = getParameter("str");
+		g.drawString(Str,20,20);
+		
+		char[] StrArr = Str.toCharArray();//string convert into char array
+		for(char ch: StrArr)
+		{
+			if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'||ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U')
+			{
+				vowel += ch+" ";
+			}
+		}
+		showStatus(vowel);
+	}
+}
